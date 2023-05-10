@@ -1,0 +1,16 @@
+@if ($essential_trip_informations)
+<div class="mb-3 essential-info" style="background: #ffecc7; padding: 15px;">
+    <h3>Essential Trip Information</h3>
+    <ul class="essential-links" style="font-size: 17px;list-style: none;">
+        @foreach ($essential_trip_informations as $trip_info)
+        <li style="padding: 5px 0px;">
+            <a href="{!! ($trip_info->link)?$trip_info->link:'javascript:;' !!}" target="_blank">
+            <svg class="icon mr-1">
+                <use xlink:href="{{ asset('assets/front/img/sprite.svg#arrownarrowright') }}" /></svg>
+
+            {{ $trip_info->name }} </a>
+        </li>
+        @endforeach
+    </ul>
+</div>
+@endif
