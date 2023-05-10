@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Helpers\Setting;
 use App\Invoice;
 use App\Services\Recaptcha\RecaptchaService;
+use App\Trip;
 use App\TripDeparture;
+use Bickyraj\Hbl\Api\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use DB;
@@ -130,21 +132,103 @@ class HomeController extends Controller
     public function storePayment(Request $request)
     {
         try {
+            $trip = Trip::find($request->id);
+            // dd($request->all());
             // save data to database.
             $invoice = new Invoice();
             $latest_invoice = DB::table('invoices')->latest('id')->first();
             $last_id = $latest_invoice ? $latest_invoice->id: 1;
-            $invoice_id = 'IV-' .
-            str_pad($last_id, 5, "0", STR_PAD_LEFT);
+            $invoice_number = str_pad($last_id, 5, "0", STR_PAD_LEFT);
+            $invoice_id = 'IV-' . $invoice_number;
+            $invoice->invoice_id = $invoice_id;
+            $invoice->full_name = $request->first_name;
+            // price is 20% of the booking amount
+            $price_after_20_percent = 0.2 * floatval($trip->offer_price ?? 0);
+            $invoice->amount = $price_after_20_percent;
+            $invoice->price = $price_after_20_percent;
+            $invoice->trip_name = $trip->name;
+            $invoice->email = $request->email;
+            $invoice->contact_number = $request->contact_no;
+            $invoice->ref_id = $invoice_number;
+            $invoice->save();
+
+            // payment
+            $payment = [];
+            $payment['formID'] = config('hbl.OfficeId');
+            $payment['api_key'] = config('hbl.AccessToken');
+            $payment['input_currency'] = config('constants.hbl.input_currency');
+            $payment['merchant_id'] = config('hbl.OfficeId');
+            $payment['input_amount'] = $invoice->amount;
+            $payment['input_3d'] = config('constants.hbl.input_3d');
+            $payment['simple_spc'] = config('constants.hbl.simple_spc');
+            $payment['fail_url'] = route('hbl.payment.failed');
+            $payment['cancel_url'] = route('hbl.payment.canceled');
+            $payment['success_url'] = route('front.payment.callback', ['invoceId' => $invoice->invoice_id]);
+            $payment['backend_url'] = route('home');
+            $payment['invoiceNo'] = $invoice->invoice_id;
+            $payment['ref_id'] = $invoice->ref_id;
+            $hbl_payment = new Payment();
+            //echo "Payment jose request \n ";
+            $joseResponse = $hbl_payment->ExecuteFormJose($payment['merchant_id'],$payment['api_key'],$payment['input_currency'],$payment['input_amount'],$payment['input_3d'],$payment['success_url'],$payment['fail_url'],$payment['cancel_url'],$payment['backend_url'], $payment['ref_id']);
+            //echo "Response data : <pre>\n";
+            //var_dump(json_decode($joseResponse));
+            $response_obj = json_decode($joseResponse);
+            //echo $response_obj->response->Data->paymentPage->paymentPageURL;
+            header("Location: ".$response_obj->response->Data->paymentPage->paymentPageURL);
+            exit();
+            // return redirect()->route('front.redeem_payment', ['id' => $invoice->id]);
+        } catch (\Throwable $th) {
+            \Log::info($th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function storePaymentFromFooter(Request $request)
+    {
+        try {
+            // save data to database.
+            $invoice = new Invoice();
+            $latest_invoice = DB::table('invoices')->latest('id')->first();
+            $last_id = $latest_invoice ? $latest_invoice->id : 1;
+            $invoice_number = str_pad($last_id, 5, "0", STR_PAD_LEFT);
+            $invoice_id = 'IV-' . $invoice_number;
             $invoice->invoice_id = $invoice_id;
             $invoice->full_name = $request->fullname;
-            $invoice->amount = $request->amount;
-            $invoice->price = $request->price;
+            // price is 20% of the booking amount
+            $price_float = floatval($request->price);
+            $invoice->amount = $price_float;
+            $invoice->price = $price_float;
             $invoice->trip_name = $request->trip_name;
             $invoice->email = $request->email;
             $invoice->contact_number = $request->contact_number;
+            $invoice->ref_id = $invoice_number;
             $invoice->save();
-            return redirect()->route('front.redeem_payment', ['id' => $invoice->id]);
+
+            // payment
+            $payment = [];
+            $payment['formID'] = config('hbl.OfficeId');
+            $payment['api_key'] = config('hbl.AccessToken');
+            $payment['input_currency'] = config('constants.hbl.input_currency');
+            $payment['merchant_id'] = config('hbl.OfficeId');
+            $payment['input_amount'] = $invoice->amount;
+            $payment['input_3d'] = config('constants.hbl.input_3d');
+            $payment['simple_spc'] = config('constants.hbl.simple_spc');
+            $payment['fail_url'] = route('hbl.payment.failed');
+            $payment['cancel_url'] = route('hbl.payment.canceled');
+            $payment['success_url'] = route('front.payment.callback', ['invoceId' => $invoice->invoice_id]);
+            $payment['backend_url'] = route('home');
+            $payment['invoiceNo'] = $invoice->invoice_id;
+            $payment['ref_id'] = $invoice->ref_id;
+            $hbl_payment = new Payment();
+            //echo "Payment jose request \n ";
+            $joseResponse = $hbl_payment->ExecuteFormJose($payment['merchant_id'], $payment['api_key'], $payment['input_currency'], $payment['input_amount'], $payment['input_3d'], $payment['success_url'], $payment['fail_url'], $payment['cancel_url'], $payment['backend_url'], $payment['ref_id']);
+            //echo "Response data : <pre>\n";
+            //var_dump(json_decode($joseResponse));
+            $response_obj = json_decode($joseResponse);
+            //echo $response_obj->response->Data->paymentPage->paymentPageURL;
+            header("Location: " . $response_obj->response->Data->paymentPage->paymentPageURL);
+            exit();
+            // return redirect()->route('front.redeem_payment', ['id' => $invoice->id]);
         } catch (\Throwable $th) {
             \Log::info($th->getMessage());
             return redirect()->back();

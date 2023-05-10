@@ -232,6 +232,23 @@ Route::post('/reviews', 'Front\TripReviewController@store')->name('front.reviews
 // Route::get('/why-choose-us', 'Front\WhyChooseController@index')->name('front.why-chooses.index');
 // Route::get('/why-choose-us/{id}', 'Front\WhyChooseController@show')->name('front.why-chooses.show');
 
+// hbl payment
+// Himalayan Bank Payment routes
+Route::get('/payment/hbl/callback/{invoceId}', 'Front\PaymentController@callbackPayment')->name('front.payment.callback');
+Route::get('/print/{slug}', 'Front\TripController@print')->name('front.trips.print');
+Route::get('/payment', 'Front\HomeController@payment')->name('front.payment');
+Route::post('/payment', 'Front\HomeController@storePayment')->name('front.store_payment');
+Route::post('/custom-payment', 'Front\HomeController@storePaymentFromFooter')->name('front.store_payment_from_footer');
+Route::post('/payment/callback', 'Front\HomeController@callbackPayment')->name('front.home.payment.callback');
+Route::get('/redeem-payment/{id}', 'Front\HomeController@redeemPayment')->name('front.redeem_payment');
+Route::get('/trips/filter/{region?}/{destination_id?}/{activity_id?}/{srotBy?}', 'Front\TripController@filter')->name('front.trips.filter');
+
+Route::get('/hbl', 'Front\HomeController@index')->name('hbl.index');
+Route::post('/hbl/payment-request', 'Front\HomeController@paymentRequest')->name('hbl.paymentrequest');
+Route::get('/hbl/payment/success', 'Front\HomeController@paymentSuccess')->name('hbl.payment.success');
+Route::get('/hbl/payment/canceled', 'Front\HomeController@paymentCanceled')->name('hbl.payment.canceled');
+Route::get('/hbl/payment/failed', 'Front\HomeController@paymentFailed')->name('hbl.payment.failed');
+
 Route::get('/print/{slug}', 'Front\TripController@print')->name('front.trips.print');
 Route::get('/payment', 'Front\HomeController@payment')->name('front.payment');
 Route::post('/payment', 'Front\HomeController@storePayment')->name('front.store_payment');
