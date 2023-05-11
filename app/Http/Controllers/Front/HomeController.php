@@ -13,6 +13,7 @@ use App\TripDeparture;
 use Bickyraj\Hbl\Api\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use DB;
 
 class HomeController extends Controller
@@ -249,5 +250,33 @@ class HomeController extends Controller
         $payment['hashValue'] = config('constants.payment_merchant_key');
 
         return view('front.payment.redeem_payment', compact('payment'));
+    }
+
+    public function paymentSuccess(Request $request)
+    {
+        $invoice = Invoice::where('ref_id', $request->orderNo)->first();
+        $invoice->status = Invoice::PAID;
+        $invoice->save();
+        Session::flash('success_message', 'Payment successfull.');
+        return redirect()->route('home');
+    }
+
+    public function paymentCanceled(Request $request)
+    {
+        $invoice = Invoice::where('ref_id', $request->orderNo)->first();
+        $invoice->status = Invoice::CANCELED;
+        $invoice->save();
+        Session::flash('error_message', 'Payment Canceled. Please try again.');
+        return redirect()->route('home');
+    }
+
+    public function paymentFailed(Request $request)
+    {
+        // update invoice data
+        $invoice = Invoice::where('ref_id', $request->orderNo)->first();
+        $invoice->status = Invoice::FAILED;
+        $invoice->save();
+        Session::flash('error_message', 'Payment failed. Please try again.');
+        return redirect()->route('home');
     }
 }
