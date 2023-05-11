@@ -1,3 +1,14 @@
+<?php
+$success_message = "";
+$error_message = "";
+if (session()->has('success_message')) {
+    $success_message = session()->get('success_message');
+}
+
+if (session()->has('error_message')) {
+    $error_message = session()->get('error_message');
+}
+?>
 @push('styles')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @endpush
@@ -78,4 +89,16 @@
 @push('scripts')
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="{{ asset('assets/js/search-trips.js') }}"></script>
+<script>
+    (function() {
+        let success_message = "<?php echo $success_message;?>";
+        let error_message = "<?php echo $error_message;?>";
+        if (success_message != "") {
+            toastr.success(success_message);
+        }
+        if (error_message != "") {
+            toastr.warning(error_message);
+        }
+    })();
+</script>
 @endpush

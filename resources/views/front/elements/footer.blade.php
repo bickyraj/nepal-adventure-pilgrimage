@@ -20,6 +20,11 @@
 
 <!-- Footer -->
 <footer class="text-primary" style="background: #ededed;">
+    <div class="container" style="margin-bottom: 15px;">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <a href="{{ route('front.makeapayment') }}" class="btn btn-accent">Make a Payment</a>
+        </div>
+    </div>
     <div class="container fs-sm">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div class="mb-4">
@@ -122,7 +127,7 @@
                 <ul>
                     <li class="mr-1 p-2"><a href="https://www.tripadvisor.com/AttractionProductReview-g293890-d24129515-14_Day_Private_Everest_Base_Camp_Trek_fro_Kathmandu-Kathmandu_Kathmandu_Valley_Bag.html" target="_blank"><img class="lazy" src="{{ asset('assets/front/img/viator.png') }}"
                                 alt="Viator"></a></li>
-            
+
                 </ul>
             </div>
             <div class="mb-2 affiliations">
@@ -182,7 +187,7 @@
                         Book a Trip
                     </a>
                 </li>
-                 
+
             </ul>
 </div>
 --}}

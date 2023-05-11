@@ -279,4 +279,9 @@ class HomeController extends Controller
         Session::flash('error_message', 'Payment failed. Please try again.');
         return redirect()->route('home');
     }
+
+    public function makePayment()
+    {
+        return view('front.payment.payment');
+    }
 }

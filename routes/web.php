@@ -249,6 +249,8 @@ Route::get('/hbl/payment/success', 'Front\HomeController@paymentSuccess')->name(
 Route::get('/hbl/payment/canceled', 'Front\HomeController@paymentCanceled')->name('hbl.payment.canceled');
 Route::get('/hbl/payment/failed', 'Front\HomeController@paymentFailed')->name('hbl.payment.failed');
 
+Route::get('/make-a-payment', 'Front\HomeController@makePayment')->name('front.makeapayment');
+
 Route::get('/print/{slug}', 'Front\TripController@print')->name('front.trips.print');
 Route::get('/payment', 'Front\HomeController@payment')->name('front.payment');
 Route::post('/payment', 'Front\HomeController@storePayment')->name('front.store_payment');
