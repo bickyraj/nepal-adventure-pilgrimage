@@ -170,7 +170,18 @@ class HomeController extends Controller
             $payment['ref_id'] = $invoice->ref_id;
             $hbl_payment = new Payment();
             //echo "Payment jose request \n ";
-            $joseResponse = $hbl_payment->ExecuteFormJose($payment['merchant_id'],$payment['api_key'],$payment['input_currency'],$payment['input_amount'],$payment['input_3d'],$payment['success_url'],$payment['fail_url'],$payment['cancel_url'],$payment['backend_url'], $payment['ref_id']);
+            $paymentObj = [
+                "order_no" => $payment['ref_id'],
+                "amount" => $payment['input_amount'],
+                "success_url" => $payment['success_url'],
+                "failed_url" => $payment['fail_url'],
+                "cancel_url" => $payment['cancel_url'],
+                "backend_url" => $payment['backend_url'],
+                "custom_fields" => [
+                    'RefID' => $payment['ref_id']
+                ],
+            ];
+            $joseResponse = $hbl_payment->ExecuteFormJose($paymentObj);
             //echo "Response data : <pre>\n";
             //var_dump(json_decode($joseResponse));
             $response_obj = json_decode($joseResponse);
@@ -222,7 +233,18 @@ class HomeController extends Controller
             $payment['ref_id'] = $invoice->ref_id;
             $hbl_payment = new Payment();
             //echo "Payment jose request \n ";
-            $joseResponse = $hbl_payment->ExecuteFormJose($payment['merchant_id'], $payment['api_key'], $payment['input_currency'], $payment['input_amount'], $payment['input_3d'], $payment['success_url'], $payment['fail_url'], $payment['cancel_url'], $payment['backend_url'], $payment['ref_id']);
+            $paymentObj = [
+                "order_no" => $payment['ref_id'],
+                "amount" => $payment['input_amount'],
+                "success_url" => $payment['success_url'],
+                "failed_url" => $payment['fail_url'],
+                "cancel_url" => $payment['cancel_url'],
+                "backend_url" => $payment['backend_url'],
+                "custom_fields" => [
+                    'RefID' => $payment['ref_id']
+                ],
+            ];
+            $joseResponse = $hbl_payment->ExecuteFormJose($paymentObj);
             //echo "Response data : <pre>\n";
             //var_dump(json_decode($joseResponse));
             $response_obj = json_decode($joseResponse);
