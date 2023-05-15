@@ -14,11 +14,6 @@ return [
     'payment_merchange_name' => env('PAYMENT_MERCHANT_NAME'),
     'payment_merchant_key' => env('PAYMENT_SECRET_KEY'),
     "hbl" => [
-        "formID" => env('HBL_OFFICE_ID'),
-        "input_currency" => env('HBL_INPUT_CURRENCY'),
-        "merchant_id" => env('HBL_OFFICE_ID'),
-        "input_3d" => env("HBL_INPUT_3D"),
-        "simple_spc" => env('HBL_OFFICE_ID'),
         "success_url" => "",
         "fail_url" => "",
         "cancel_url" => "",

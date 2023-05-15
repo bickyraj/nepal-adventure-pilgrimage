@@ -74,16 +74,16 @@
         },
         {
             "name": "bickyraj/hbl",
-            "version": "v1.2.2",
+            "version": "v1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bickyraj/hbl.git",
-                "reference": "1323badf5fc4727e026b5abf8685ae422421c8dd"
+                "reference": "5e3ba2648e55d64bfe2fbb413da5e8d37e2c1a9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bickyraj/hbl/zipball/1323badf5fc4727e026b5abf8685ae422421c8dd",
-                "reference": "1323badf5fc4727e026b5abf8685ae422421c8dd",
+                "url": "https://api.github.com/repos/bickyraj/hbl/zipball/5e3ba2648e55d64bfe2fbb413da5e8d37e2c1a9f",
+                "reference": "5e3ba2648e55d64bfe2fbb413da5e8d37e2c1a9f",
                 "shasum": ""
             },
             "require": {
@@ -111,9 +111,9 @@
             "description": "himalyan bank payment library",
             "support": {
                 "issues": "https://github.com/bickyraj/hbl/issues",
-                "source": "https://github.com/bickyraj/hbl/tree/v1.2.2"
+                "source": "https://github.com/bickyraj/hbl/tree/v1.2.3"
             },
-            "time": "2023-03-16T20:36:37+00:00"
+            "time": "2023-05-15T13:07:05+00:00"
         },
         {
             "name": "brick/math",

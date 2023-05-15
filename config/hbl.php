@@ -70,4 +70,14 @@ return [
      * Merchant Decryption Private Key used to cryptographically decrypt the response JWE.
      */
     "MerchantDecryptionPrivateKey" => env('HBL_PRIVATE_KEY_JWE'),
+
+    /**
+    * Input Currecy for example USD or NRP.
+    */
+    "InputCurrencty" => env('HBL_INPUT_CURRENCY'),
+
+    /**
+    * Input 3DS should be Y for production and N for development
+    */
+    "Input3DS" => env('HBL_INPUT_3D'),
 ];
