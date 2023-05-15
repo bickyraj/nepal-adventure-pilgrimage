@@ -220,7 +220,6 @@ class HomeController extends Controller
             $payment['backend_url'] = route('home');
             $payment['invoiceNo'] = $invoice->invoice_id;
             $payment['ref_id'] = $invoice->ref_id;
-            dd($payment);
             $hbl_payment = new Payment();
             //echo "Payment jose request \n ";
             $joseResponse = $hbl_payment->ExecuteFormJose($payment['merchant_id'], $payment['api_key'], $payment['input_currency'], $payment['input_amount'], $payment['input_3d'], $payment['success_url'], $payment['fail_url'], $payment['cancel_url'], $payment['backend_url'], $payment['ref_id']);
