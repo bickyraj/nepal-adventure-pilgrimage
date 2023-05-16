@@ -10,7 +10,7 @@ use App\Invoice;
 use App\Services\Recaptcha\RecaptchaService;
 use App\Trip;
 use App\TripDeparture;
-use Bickyraj\Hbl\Api\Payment;
+use Bickyraj\Hbl\Api\HblPayment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -168,7 +168,6 @@ class HomeController extends Controller
             $payment['backend_url'] = route('home');
             $payment['invoiceNo'] = $invoice->invoice_id;
             $payment['ref_id'] = $invoice->ref_id;
-            $hbl_payment = new Payment();
             //echo "Payment jose request \n ";
             $paymentObj = [
                 "order_no" => $payment['ref_id'],
@@ -181,14 +180,9 @@ class HomeController extends Controller
                     'RefID' => $payment['ref_id']
                 ],
             ];
-            $joseResponse = $hbl_payment->ExecuteFormJose($paymentObj);
-            //echo "Response data : <pre>\n";
-            //var_dump(json_decode($joseResponse));
-            $response_obj = json_decode($joseResponse);
-            //echo $response_obj->response->Data->paymentPage->paymentPageURL;
-            header("Location: ".$response_obj->response->Data->paymentPage->paymentPageURL);
-            exit();
-            // return redirect()->route('front.redeem_payment', ['id' => $invoice->id]);
+
+            HblPayment::pay($paymentObj);
+
         } catch (\Throwable $th) {
             \Log::info($th->getMessage());
             return redirect()->back();
@@ -231,8 +225,6 @@ class HomeController extends Controller
             $payment['backend_url'] = route('home');
             $payment['invoiceNo'] = $invoice->invoice_id;
             $payment['ref_id'] = $invoice->ref_id;
-            $hbl_payment = new Payment();
-            //echo "Payment jose request \n ";
             $paymentObj = [
                 "order_no" => $payment['ref_id'],
                 "amount" => $payment['input_amount'],
@@ -244,14 +236,7 @@ class HomeController extends Controller
                     'RefID' => $payment['ref_id']
                 ],
             ];
-            $joseResponse = $hbl_payment->ExecuteFormJose($paymentObj);
-            //echo "Response data : <pre>\n";
-            //var_dump(json_decode($joseResponse));
-            $response_obj = json_decode($joseResponse);
-            //echo $response_obj->response->Data->paymentPage->paymentPageURL;
-            header("Location: " . $response_obj->response->Data->paymentPage->paymentPageURL);
-            exit();
-            // return redirect()->route('front.redeem_payment', ['id' => $invoice->id]);
+            HblPayment::pay($paymentObj);
         } catch (\Throwable $th) {
             \Log::info($th->getMessage());
             return redirect()->back();
