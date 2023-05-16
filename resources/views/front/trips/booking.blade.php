@@ -29,7 +29,7 @@
         </div>
 </section>
 
-<section class="py-5">
+<section class="py-5" x-data="{ noOfTravellers: 1, rate: {{ $trip->cost }} }">
     <div class="container">
         <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-3">
             <div class="lg:col-span-2 xl:col-span-3">
@@ -71,11 +71,10 @@
 
                     <h2 class="fs-lg bold text-primary mb-2">Trip details</h3>
                          <div class="grid lg:grid-cols-3 gap-2 mb-2">
-                            <div class="form-group">
-                                <label for="">No. of travellers </label>
-                                <input type="number" name="no_of_travellers" class="form-control" min="<?php echo date('Y-m-d');?>"
-                                placeholder="No. of travellers" >
-                            </div>
+                             <div class="form-group">
+                                    <label for="">No. of travellers </label>
+                                    <input type="number" name="no_of_travellers" class="form-control" min="1" x-model="noOfTravellers" placeholder="No. of travellers">
+                                </div>
                             <div class="form-group">
                                 <label for="">Preferred departure date</label>
                                 <input type="date" name="preferred_departure_date" name="" id="" class="form-control" min="<?php echo date('Y-m-d');?>">
@@ -89,23 +88,23 @@
                             </div>
                         </div>
                         @include('front.elements.recaptcha')
-                        <button id="make_a_payment_btn" type="submit" class="btn btn-theme" style="background: #ff4c02; color: #fff;">Payment</button>
+                        <button id="make_a_payment_btn" type="submit" class="btn btn-theme" style="background: #ff4c02; color: #fff;">Submit</button>
                 </form>
             </div>
 
-            <aside>
-                <div class="border-light p-2">
-                    <h2 class="fs-lg text-primary bold">{{ $trip->name }}</h2>
-                    <div class="card-body">
-                        <p>{{ $trip->duration }} Days</p>
-                        <!-- <b>Earliest Fixed Depature Date</b>
-                        <p>1 Jan 2020</p> -->
-                        @if($trip->offer_price)
-                        <b>USD {{ $trip->offer_price }}</b> per person
-                        @endif
+           <aside>
+                    <div class="p-4 rounded-lg bg-light">
+                        <h2 class="text-2xl font-bold text-primary">Book {{ $trip->name }}</h2>
+                        <div class="mt-4 card-body">
+                            <p class="flex justify-between"><span>Duration:</span>{{ $trip->duration }} days</p>
+                            <p class="flex justify-between"><span>No of Travellers:</span><span><span x-text="noOfTravellers"></span> people</span></p>
+                            <p class="flex justify-between"><span>Rate:</span><span>USD <span x-text="rate.toLocaleString()"></span></span></p>
+                            <hr>
+                            <p class="flex justify-between"><span>Total amount:</span><span class="font-bold text-primary">USD <span x-text="(noOfTravellers * rate).toLocaleString()"></span></span></p>
+
+                        </div>
                     </div>
-                </div>
-            </aside>
+                </aside>
         </div>
     </div>
 </section>

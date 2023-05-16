@@ -134,7 +134,6 @@ class HomeController extends Controller
     {
         try {
             $trip = Trip::find($request->id);
-            // dd($request->all());
             // save data to database.
             $invoice = new Invoice();
             $latest_invoice = DB::table('invoices')->latest('id')->first();
@@ -143,10 +142,10 @@ class HomeController extends Controller
             $invoice_id = 'IV-' . $invoice_number;
             $invoice->invoice_id = $invoice_id;
             $invoice->full_name = $request->first_name;
-            // price is 20% of the booking amount
-            $price_after_20_percent = 0.2 * floatval($trip->offer_price ?? 0);
-            $invoice->amount = $price_after_20_percent;
-            $invoice->price = $price_after_20_percent;
+            // price is 25% of the booking amount
+            $price_after_percent = 0.25 * floatval($trip->cost ?? 0) * intval($request->no_of_travellers, 10);
+            $invoice->amount = $price_after_percent;
+            $invoice->price = $price_after_percent;
             $invoice->trip_name = $trip->name;
             $invoice->email = $request->email;
             $invoice->contact_number = $request->contact_no;
