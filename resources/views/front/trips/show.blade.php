@@ -68,6 +68,10 @@ $page_trip_id = $trip->id;
     .embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 </style>
 <style type="text/css">
+    .blocker {
+        z-index: 10000 !important;
+    }
+
   .modal {
     z-index: 99999 !important;
   }
@@ -668,7 +672,7 @@ $page_trip_id = $trip->id;
                         </a>
                     </div>
                 @endif
-                
+
                 <div id="packing-list" class="tds pt-10 bg-white px-4 lg:px-10 pb-4 mb-4">
                     <h2 class="mb-4 text-4xl lg:text-5xl font-display text-primary uppercase">Packing List</h2>
                                <?= (($trip->trip_seo)?$trip->trip_seo->about_leader:''); ?>
@@ -726,8 +730,8 @@ $page_trip_id = $trip->id;
 
                 @include('front.elements.price_card'){{--
                 <a href="{{ route('front.trips.booking', $trip->slug) }}" class="mb-8 btn btn-accent w-full">Ask for agency price</a>--}}
-                
-                 
+
+
 
                 @include('front.elements.enquiry')
 
@@ -738,17 +742,17 @@ $page_trip_id = $trip->id;
                         <h2 class="mb-2 font-display text-2xl text-primary uppercase">Route Map</h2>
                     </div>
                     <div class="card-body p-0">
-                        <a data-fancybox data-caption="Annapurna Base Camp Trek Map" href="{{ $trip->mapImageUrl }}">
-                            <img class="lazy" class="img-fluid" src="{{ $trip->mapImageUrl }}" alt="">
+                        <a href="#ex1" rel="modal:open">
+                            <img class="img-fluid" src="{{ $trip->mapImageUrl }}" alt="{{ $trip->name }}">
                         </a>
                     </div>
-                </div> 
+                </div>
                 @endif
-                
+
                 <div class="mb-8">
                     <div id="TA_selfserveprop436" class="TA_selfserveprop"><ul id="QilPdfnoM" class="TA_links Xdo3pBNRdif"><li id="hi9l2s7QoR7N" class="55xaWa"><a target="_blank" href="https://www.tripadvisor.com/Attraction_Review-g293890-d11964139-Reviews-Nepal_Adventure_Pilgrimage_Treks_and_Expedition_Pvt_Ltd-Kathmandu_Kathmandu_Vall.html"><img src="https://www.tripadvisor.com/img/cdsi/img2/branding/v2/Tripadvisor_lockup_horizontal_secondary_registered-11900-2.svg" alt="TripAdvisor"/></a></li></ul></div><script async src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=436&amp;locationId=11964139&amp;lang=en_US&amp;rating=true&amp;nreviews=5&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=false&amp;border=true&amp;display_version=2" data-loadtrk onload="this.loadtrk=true"></script>
                 </div>
-                
+
 
                 <div class="experts-card bg-primary px-2 py-10 text-black">
                     <div class="grid grid-cols-3">
@@ -824,7 +828,7 @@ $page_trip_id = $trip->id;
                     </a> --}}
                 </div>
                 @include('front.elements.essential_trip_information')
-            
+
 
                 @if(iterator_count($trip->addon_trips))
                     <div class="mb-8">
@@ -836,7 +840,7 @@ $page_trip_id = $trip->id;
                     </div>
                 @endif
 
-               
+
 
                 <div class="sticky-top sticky-price none lg:block" style="top: 9rem;">
                     @include('front.elements.price_card')
@@ -862,11 +866,17 @@ $page_trip_id = $trip->id;
         </div> <!-- Similar -->
     @endif
 </section>
-
+<div id="ex1" class="modal" style="max-width: 70%;">
+  <p>
+    <img class="map-image-modal" src="{{ $trip->mapImageUrl }}" alt="map">
+  </p>
+</div>
 
 @endsection
 @push('scripts')
 <!--<script src="{{ asset('assets/front/js/tour-details.js') }}"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/wheelzoom@4.0.1/wheelzoom.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tiny-slider@2.9.3/dist/tiny-slider.min.js"></script>
 <script>
@@ -1006,6 +1016,26 @@ $(function() {
         //     },
         // });
 
+        $(function() {
+            $('#ex1').on($.modal.OPEN, function(event, modal) {
+                $('.map-image-modal').attr('src', "{{ $mapImageUrl }}");
+                wheelzoom($('.map-image-modal'));
+            });
+
+            $('#ex1').on($.modal.AFTER_CLOSE, function(event, modal) {
+                $('.map-image-modal').attr('src', "");
+                $('.map-image-modal').trigger('wheelzoom.reset');
+            });
+            $('#map-modal').on('show.bs.modal', function(e) {
+                setTimeout(function() {
+                    let img = '<img class="img-fluid map-image-modal" src="{{ $mapImageUrl }}" alt="">';
+                    $("#map-modal").find(".modal-body").html(img);
+                    wheelzoom($('.map-image-modal'));
+                }, 500);
+            });
+            // $(".similar-trip-rating").rating();
+            // $("#review-rating").rating();
+        });
         var enquiry_validator = $("#enquiry-form").validate({
             ignore: "",
             rules: {
