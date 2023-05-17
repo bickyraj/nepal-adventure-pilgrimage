@@ -29,7 +29,7 @@
         </div>
 </section>
 
-<section class="py-5" x-data="{ noOfTravellers: 1, rate: {{ $trip->cost }} }">
+<section class="py-5" x-data="{ noOfTravellers: 1, rate: {{ ($trip->offer_price != 0)? $trip->offer_price: $trip->cost }} }">
     <div class="container">
         <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-3">
             <div class="lg:col-span-2 xl:col-span-3">
