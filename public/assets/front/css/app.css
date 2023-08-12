@@ -4858,7 +4858,11 @@ a.theme:hover svg {
 }
 
 .review p {
-  font-style: italic;
+    font-style: italic;
+    max-height: 8rem;
+    overflow-y: scroll;
+    padding-right: 1rem;
+    font-size: 0.95rem;
 }
 
 .article img {
@@ -5164,7 +5168,8 @@ footer .bottom {
 
 @media (min-width: 992px) {
   .hero-slider .text {
-    top: 40%;
+    bottom: 1%;
+    left: 2%;
   }
 }
 
