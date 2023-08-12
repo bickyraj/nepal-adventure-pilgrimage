@@ -11,8 +11,7 @@
                     <img src="{{ $banner->thumbImageUrl }}" data-img="{{ $banner->imageUrl }}" class="block lazyload" alt="{{ $banner->name }}" width="1500" height="1000">
                     <div class="text absolute w-full py-4 lg:py-6">
                         <div class="container">
-                            <h2 class="mb-2 font-display text-white text-8xl lg:text-4xl lg:text-5xl" style="
-    font-size: calc(5vw + 1rem);">
+                            <h2 class="mb-2 font-display text-white text-8xl lg:text-4xl lg:text-5xl" style="font-size: calc(5vw + 1rem); text-shadow: 0 0 3px #117d0e, 0 0 5px #237b1f;">
                                 <span>{{ $banner->name }}</span>
                             </h2>
                    

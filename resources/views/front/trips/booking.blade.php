@@ -14,7 +14,7 @@
 
 <!-- Hero -->
 <section class="hero hero-alt relative">
-    <img src="{{ asset('assets/front/img/hero.jpg') }}" alt="">
+    <img src="{{ $trip->imageUrl }}" alt="">
     <div class="overlay absolute">
         <div class="container ">
             <h1>{{ $trip->name }}</h1>
@@ -101,6 +101,8 @@
                             <p class="flex justify-between"><span>Rate:</span><span>USD <span x-text="rate.toLocaleString()"></span></span></p>
                             <hr>
                             <p class="flex justify-between"><span>Total amount:</span><span class="font-bold text-primary">USD <span x-text="(noOfTravellers * rate).toLocaleString()"></span></span></p>
+                            
+                            <p class="flex justify-between"><span>Payable Now:</span><span class="font-bold text-primary">USD <span x-text="(noOfTravellers * rate * 0.25).toLocaleString()"></span></span></p>
 
                         </div>
                     </div>

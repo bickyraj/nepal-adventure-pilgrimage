@@ -18,13 +18,13 @@
 <!-- About -->
 <div class="about bg-gray">
     <div class="container">
-        <div class="about__grid grid lg:grid-cols-3">
+        <div class="grid lg:grid-cols-3">
             <div class="about__bg bg-gray">
             </div>
             <div id="overview-content-block" class="lg:col-span-2 p-4 lg:p-10 about__text py-10 showMore">
-                <h1 class="mb-2 text-4xl lg:text-5xl text-primary font-display uppercase">{{ Setting::get('homePage')['welcome']['title']??'' }}
+                <h1 class="mb-2 text-4xl lg:text-4xl text-primary font-display uppercase">{{ Setting::get('homePage')['welcome']['title']??'' }}
                 </h1>
-                <div class="underline underline--center mb-6 bg-accent"></div>
+                <div class="underline underline--left mb-6 bg-accent"></div>
                 <?= Setting::get('homePage')['welcome']['content']??'' ?>
 
               
@@ -267,9 +267,7 @@
                             <div class="flex items-center text-xs text-gray"><svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 {{ formatDate($blog->blog_date) }}
                             </div>
-                            <p class="text-sm">
-                                {{ truncate(strip_tags($blog->description)) }}
-                            </p>
+                           
                         </div>
                     </div>
                 </a>

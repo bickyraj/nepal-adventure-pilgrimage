@@ -20,17 +20,12 @@
 
 <!-- Footer -->
 <footer class="text-primary" style="background: #ededed;">
-    <div class="container" style="margin-bottom: 15px;">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <a href="{{ route('front.makeapayment') }}" class="btn btn-accent">Make a Payment</a>
-        </div>
-    </div>
     <div class="container fs-sm">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div class="mb-4">
                <iframe width="270px" height="280px" src="https://www.youtube.com/embed/xcXRsM7N1U4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <div class="mb-4">
+            <div class="col-span-2 lg:col-span-1 mb-4">
                  <h2 class="font-display text-2xl text-primary">Thailand Office</h2>
                 <ul class="icon-list">
                     <li class="flex">
@@ -47,7 +42,7 @@
                         <a class="text-sm" href="mailto:{{ Setting::get('email') }}">{{ Setting::get('email') }}</a></li>
                 </ul>
             </div>
-            <div class="mb-4">
+            <div class="col-span-2 lg:col-span-1 mb-4">
                  <h2 class="font-display text-2xl text-primary">France Office</h2>
                 <ul class="icon-list">
                     <li class="flex">
@@ -75,6 +70,10 @@
                         <svg class="flex-shrink-0 mr-1">
                             <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#phone" /></svg>
                         <a class="text-sm" href="tel:{{ Setting::get('mobile1') }}">{{ Setting::get('mobile1') }}</a></li>
+                          <li class="flex">
+                        <svg class="flex-shrink-0 mr-1">
+                            <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#phone" /></svg>
+                        <a class="text-sm" href="tel:{{ Setting::get('mobile2') }}">{{ Setting::get('mobile2') }}</a></li>
                     <li class="flex">
                         <svg class="flex-shrink-0 mr-1">
                             <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#mail" /></svg>
@@ -123,13 +122,24 @@
                 </li>
             </ul>
            <div class="mb-2 affiliations">
+                <div class="container" style="margin-bottom: 15px;">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <a href="{{ route('front.makeapayment') }}" class="btn btn-accent">Make a Payment</a>
+        </div>
+    </div>
+            </div>
+            
+            <div class="mb-2 affiliations">
                 <div class="mb-2 text-xs">Recommended By</div>
                 <ul>
                     <li class="mr-1 p-2"><a href="https://www.tripadvisor.com/AttractionProductReview-g293890-d24129515-14_Day_Private_Everest_Base_Camp_Trek_fro_Kathmandu-Kathmandu_Kathmandu_Valley_Bag.html" target="_blank"><img class="lazy" src="{{ asset('assets/front/img/viator.png') }}"
                                 alt="Viator"></a></li>
+                    <li class="mr-1 p-2"><a href="https://www.getyourguide.com/everest-base-camp-nepal-l175846/everest-base-camp-trekking-tour-t464101/" target="_blank"><img class="lazy" src="https://cdn.getyourguide.com/tf/assets/static/logos/gyg-logo.svg"
+                                alt="Get your guide"></a></li>
 
                 </ul>
             </div>
+            
             <div class="mb-2 affiliations">
                 <div class="mb-2 text-xs">We are affiliated to</div>
                 <ul>

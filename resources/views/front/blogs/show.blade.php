@@ -33,15 +33,15 @@
     <div class="container">
 
         <div class="grid lg:grid-cols-3 gap-2 xl:gap-3">
-            @forelse ($blogs as $blog)
-                <a href="{{ route('front.blogs.show', ['slug' => $blog->slug]) }}">
+            @forelse ($blogs as $b)
+                <a href="{{ route('front.blogs.show', ['slug' => $b->slug]) }}">
                     <div class="article">
                         <div class="image">
-                            <img src="{{ $blog->imageUrl }}" alt="">
+                            <img src="{{ $b->imageUrl }}" alt="">
                         </div>
                         <div class="content">
-                            <h2>{{ $blog->name }}</h2>
-                            <p class="fs-sm">{{ truncate(strip_tags($blog->description)) }}</p>
+                            <h2>{{ $b->name }}</h2>
+                            <p class="fs-sm">{{ truncate(strip_tags($b->description)) }}</p>
                         </div>
                     </div>
                 </a>

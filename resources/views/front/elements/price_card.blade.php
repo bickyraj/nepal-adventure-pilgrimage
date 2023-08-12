@@ -18,7 +18,7 @@
         </div>
         <div class="mb-2 text-center">
             <a href="{{ route('front.trips.booking', $trip->slug) }}" class="mb-2 btn btn-accent w-full">Book Now</a>
-            <a href="{{ route('front.trips.customize', $trip->slug) }}" class="btn btn-accent">
+            <a href="{{ route('front.trips.customize', $trip->slug) }}" class="btn btn-accent" style="width: 100%;">
 
                 <svg class="w-6 h-6 flex-shrink-0 mr-2">
                     <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#adjustments" />
@@ -33,18 +33,11 @@
                 </svg>
                 <span class="text-sm">Print Tour Details</span>
             </a>
-            <a href="{{ $trip->pdfLink }}" class="flex items-center p-1 text-accent" title="">
-                <svg class="w-4 h-4 flex-shrink-0 mr-2">
-                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#download" />
-                </svg>
-                <span class="text-sm">Download Tour Brochure</span>
-            </a>
-            <a href="#" class="flex items-center p-1 text-accent" title="Share tour">
-                <svg class="w-4 h-4 flex-shrink-0 mr-2">
-                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#share" />
-                </svg>
-                <span class="text-sm">Share Tour</span>
-            </a>
+            @if($trip->pdfLink)
+                <a href="{{ $trip->pdfLink }}" download target="_blank" class="print my-2"> <i class="fas fa-map"></i>
+                    Download brochure</a>
+                @endif
+           
         </div>
     </div>
     {{-- <div class="bg-light p-2">

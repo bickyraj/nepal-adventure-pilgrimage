@@ -29,7 +29,7 @@
                         </div>
                         <div class="content">
                             <h2>{{ $blog->name }}</h2>
-                            <p class="fs-sm">{{ truncate(strip_tags($blog->description)) }}</p>
+                           {{-- <p class="fs-sm">{{ truncate(strip_tags($blog->description)) }}</p> --}}
                         </div>
                     </div>
                 </a>

@@ -584,56 +584,57 @@ $page_trip_id = $trip->id;
                 </div>
                 @endif
 
-                <div id="reviews" class="tds pt-10 bg-white px-4 lg:px-10 pb-4 mb-4">
-                    <div class="lg:flex justify-between items-center mb-4">
-                        <h2 class="text-4xl lg:text-5xl font-display text-primary uppercase">Reviews
-                        </h2>
+                 @if (iterator_count($trip->trip_reviews))
+                        <div id="reviews" class="px-4 pt-10 pb-4 mb-4 bg-white tds lg:px-10">
+                            <div class="items-center justify-between mb-4 lg:flex">
+                                <h2 class="text-4xl uppercase lg:text-5xl font-display text-primary">Reviews
+                                </h2>
 
-                    <div>
-                        <a href="{{ route('front.reviews.create') }}" class="btn btn-primary btn-sm mr-1" data-toggle="modal" data-target="#review-modal">
-                                Write a review</a>
-                    </div>
-                    </div>
-                    <div class="grid lg:grid-cols-1 gap-2 lg:gap-3">
-                        @if(iterator_count($trip->trip_reviews))
-                            @foreach($trip->trip_reviews()->limit(15)->where('status', 1)->get() as $review)
-                                <div class="review p-4">
-                                    <div class="review__content">
-                                        <h2 class="mb-2 font-display text-2xl text-primary">{{ $review->title }}</h2>
-                                        <p>{{ $review->review }}</p>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <div class="mr-2">
-                                            <img class="lazy" src="{{ $review->thumbImageUrl }}" alt="">
-                                        </div>
-                                        <div>
-                                            <div class="font-bold">{{ $review->review_name }}</div>
-                                            <div class="text-sm text-gray">{{ $review->review_country }}</div>
-                                             <div class="flex items-center mr-4 text-accent">
-                                                <svg class="w-4 h-4">
-                                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
-                                                <svg class="w-4 h-4">
-                                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
-                                                <svg class="w-4 h-4">
-                                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
-                                                <svg class="w-4 h-4">
-                                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
-                                                <svg class="w-4 h-4">
-                                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
-                                             </div>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <a href="{{ route('front.reviews.create') }}" class="mr-1 btn btn-primary btn-sm" data-toggle="modal" data-target="#review-modal">
+                                        Write a review</a>
                                 </div>
-                            @endforeach
-                        @endif
-                    </div>
+                            </div>
+                            <div class="grid gap-2 lg:grid-cols-1 lg:gap-3">
 
-                    <a href="{{ route('front.reviews.index') }}" class="theme">See more reviews
-                        <svg>
-                            <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#arrownarrowright" />
-                        </svg>
-                    </a>
-                </div>
+                                @foreach ($trip->trip_reviews()->where('status', 1)->get() as $review)
+                                    <div class="p-4 review" style="border: 2px solid #d9d1d1;">
+                                        <div class="review__content">
+                                            <h2 class="mb-2 text-2xl font-display text-primary">{{ $review->title }}</h2>
+                                            <p>{{ $review->review }}</p>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="mr-2">
+                                                <img src="{{ $review->thumbImageUrl }}" alt="">
+                                            </div>
+                                            <div>
+                                                <div class="font-bold">{{ $review->review_name }}</div>
+                                                <div class="text-sm text-gray">{{ $review->review_country }}</div>
+                                                <div class="flex items-center mr-4 text-accent">
+                                            <svg class="w-4 h-4">
+                                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
+                                            <svg class="w-4 h-4">
+                                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
+                                            <svg class="w-4 h-4">
+                                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
+                                            <svg class="w-4 h-4">
+                                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
+                                            <svg class="w-4 h-4">
+                                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#star" /></svg>
+            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <a href="{{ route('front.reviews.index') }}" class="theme">See more reviews
+                                <svg>
+                                    <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#arrownarrowright" />
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
 
                 {{-- <div class="mb-4">
                     <iframe src="https://www.google.com/maps/d/embed?mid=1o2LaX1o68hVBiycWHWDrK_F18H1epiGB" width="100%" height="480" class="border-none"></iframe>
@@ -696,12 +697,10 @@ $page_trip_id = $trip->id;
                             </svg>
                             <span class="font-display uppercase">Print Tour Details</span>
                         </a>
-                        <a href="{{ $trip->pdfLink }}" class="flex items-center p-1 text-accent" title="">
-                            <svg class="w-6 h-6 flex-shrink-0 mr-2">
-                                <use xlink:href="{{ asset('assets/front/img/sprite.svg') }}#download" />
-                            </svg>
-                            <span class="font-display uppercase">Download Tour Brochure</span>
-                        </a>
+                       @if($trip->pdfLink)
+                <a href="{{ $trip->pdfLink }}" download target="_blank" class="print my-2"> <i class="fas fa-map"></i>
+                    Download brochure</a>
+                @endif
                     </div>
                 </div>
 
