@@ -11,7 +11,7 @@
         "php": "^8.0",
         "ext-openssl": "*",
         "barryvdh/laravel-dompdf": "^0.8.6",
-        "bickyraj/hbl": "^1.0",
+        "bickyraj/hbl": "^1.2",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^7.5",
         "intervention/image": "^2.4",
